@@ -4,12 +4,17 @@ $(document).ready(function () {
   const backBtn = $("#backBtn");
   const music = $("#bgMusic")[0];
 
-  // ✅ Putar musik otomatis saat halaman dimuat
-  // (akan berjalan kalau user sudah pernah interaksi di web sebelumnya)
-  music.volume = 0;
+  // === 🔊 AUTOPLAY FIX: mulai musik saat user interaksi pertama kali ===
+  let musicStarted = false;
+
   const startMusic = () => {
+    if (musicStarted) return;
+    musicStarted = true;
+    music.volume = 0;
+
     music.play().then(() => {
-      // fade-in pelan
+      console.log("Musik mulai 🎶");
+      // Efek fade-in biar halus
       let volume = 0;
       const fade = setInterval(() => {
         if (volume < 1) {
@@ -23,10 +28,14 @@ $(document).ready(function () {
       console.warn("Autoplay musik diblokir browser:", err);
     });
   };
-  startMusic();
 
-  // 🔥 Event klik lilin
+  // Mulai musik ketika user pertama kali klik di halaman
+  $(document).one("click", startMusic);
+
+  // === 🔥 Event klik lilin ===
   flame.on("click", function () {
+    startMusic(); // pastikan musik juga mulai kalau klik lilin
+
     flame.removeClass("burn").addClass("puff");
     $(".smoke").each(function () {
       $(this).addClass("puff-bubble");
