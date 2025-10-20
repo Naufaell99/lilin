@@ -65,7 +65,7 @@ function stopMusicAndBack() {
         clearInterval(fadeOut);
         music.pause();
         music.currentTime = 0;
-        window.location.href = "index.html";
+        window.location.href = "https://naufaell99.github.io/hbdd-sayang-ku/";
       }
     }, 100);
   } else {
